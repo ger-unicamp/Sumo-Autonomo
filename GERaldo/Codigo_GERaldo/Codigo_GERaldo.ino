@@ -34,6 +34,9 @@
 // Tamanho do vetor
 #define TAM_VETOR 5
 
+#define FRENTE HIGH
+#define TRAS LOW
+
 NewPing sensor_frontal(TRIG_F, ECHO_F, MAX_DIST);
 //NewPing sensor_direito(TRIG_D, ECHO_D, MAX_DIST);
 
@@ -55,10 +58,6 @@ void setup()
 
 void loop()
 {
-  while(true)
-  {
-    frente();
-  }
   Serial.println(sensor_frontal.ping_cm());
   int d, aux_frontal[TAM_VETOR], l; 
 
@@ -79,10 +78,7 @@ void loop()
   // 0 eh considerado distancia maxima
   if (d < MAX_DIST && d > 0)
   {
-    while(true)
-    {
-      frente();
-    }
+    frente();
   } else
   {
     direita();
@@ -110,41 +106,39 @@ void inicializa_sensores()
  
 }
 
+void controlaMotor(int MOTOR_A, int MOTOR_B, boolean sentido){
+  digitalWrite(MOTOR_A, sentido);
+  digitalWrite(MOTOR_B, !(sentido));
+}
+
 void frente()
 {
-  digitalWrite(MOTOR_1A, HIGH); // quando A é HIGH o LED vermelho acende.
-  digitalWrite(MOTOR_1B, LOW);
+  controlaMotor(MOTOR_1A, MOTOR_1A, FRENTE);
   
-  digitalWrite(MOTOR_2A, HIGH); // quando A é HIGH o LED vermelho acende.
-  digitalWrite(MOTOR_2B, LOW);
+  controlaMotor(MOTOR_2A, MOTOR_2A, FRENTE);
 }
 
 void tras()
 {
-  digitalWrite(MOTOR_1A, LOW);
-  digitalWrite(MOTOR_1B, HIGH);  // quando B é HIGH o LED verde acende. 
+  controlaMotor(MOTOR_1A, MOTOR_1A, TRAS);
   
-  digitalWrite(MOTOR_2A, LOW); 
-  digitalWrite(MOTOR_2B, HIGH);  // quando B é HIGH o LED verde acende. 
+  controlaMotor(MOTOR_2A, MOTOR_2A, TRAS);
 }
 
 void esquerda()
 {
-  digitalWrite(MOTOR_1A, LOW);
-  digitalWrite(MOTOR_1B, HIGH);  // quando B é HIGH o LED verde acende. 
+  controlaMotor(MOTOR_1A, MOTOR_1A, TRAS);
   
-  digitalWrite(MOTOR_2A, HIGH); // quando A é HIGH o LED vermelho acende.
-  digitalWrite(MOTOR_2B, LOW);
+  controlaMotor(MOTOR_2A, MOTOR_2A, FRENTE);
+  
   delay(TEMPO_DE_GIRO);
 }
 
 void direita()
 {
-  digitalWrite(MOTOR_1A, HIGH); // quando A é HIGH o LED vermelho acende.
-  digitalWrite(MOTOR_1B, LOW);
+  controlaMotor(MOTOR_1A, MOTOR_1A, FRENTE);
   
-  digitalWrite(MOTOR_2A, LOW); 
-  digitalWrite(MOTOR_2B, HIGH);  // quando B é HIGH o LED verde acende. 
+  controlaMotor(MOTOR_2A, MOTOR_2A, TRAS);
   
   delay(TEMPO_DE_GIRO);
 }
