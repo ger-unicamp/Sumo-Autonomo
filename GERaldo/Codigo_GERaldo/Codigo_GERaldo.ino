@@ -6,9 +6,10 @@
  *          Marcelo Martimiano Junior
  *          Paulo Grego
  *          Beatriz Sechin Zazulla.
+ *          Bruno Eduardo Santos de Oliveira
  * GER - Grupo de Estudos em Robótica da Unicamp.
  */
- 
+
 #define MOTOR_1A 7
 #define MOTOR_1B 6
 #define PWM_1 5
@@ -36,6 +37,12 @@
 
 #define FRENTE HIGH
 #define TRAS LOW
+
+typedef struct motor{
+  int pinoA, pinoB, pinoPWM;
+} Motor;
+
+Motor motorEsq, motorDir;
 
 NewPing sensor_frontal(TRIG_F, ECHO_F, MAX_DIST);
 //NewPing sensor_direito(TRIG_D, ECHO_D, MAX_DIST);
@@ -89,16 +96,24 @@ void loop()
 
 void inicializa_motores()
 {
-  pinMode(MOTOR_1A, OUTPUT);
-  pinMode(MOTOR_1B, OUTPUT);
-  pinMode(PWM_1, OUTPUT);
-  
-  pinMode(MOTOR_1A, OUTPUT);
-  pinMode(MOTOR_1B, OUTPUT);
-  pinMode(PWM_2, OUTPUT);
+  motorEsq.pinoA = MOTOR_1A;
+  motorEsq.pinoB = MOTOR_1B;
+  motorEsq.pinoPWM = PWM_1;
 
-  analogWrite (PWM_1, VALOR_PWM);
-  analogWrite (PWM_2, VALOR_PWM);
+  motorDir.pinoA = MOTOR_2A;
+  motorDir.pinoB = MOTOR_2B;
+  motorDir.pinoPWM = PWM_2;
+  
+  pinMode(motorEsq.pinoA, OUTPUT);
+  pinMode(motorEsq.pinoB, OUTPUT);
+  pinMode(motorEsq.pinoPWM, OUTPUT);
+  
+  pinMode(motorDir.pinoA, OUTPUT);
+  pinMode(motorDir.pinoB, OUTPUT);
+  pinMode(motorDir.pinoPWM, OUTPUT);
+
+  analogWrite (motorEsq.pinoPWM, VALOR_PWM);
+  analogWrite (motorDir.pinoPWM, VALOR_PWM);
 }
 
 void inicializa_sensores()
@@ -106,39 +121,39 @@ void inicializa_sensores()
  
 }
 
-void controlaMotor(int MOTOR_A, int MOTOR_B, boolean sentido){
-  digitalWrite(MOTOR_A, sentido);
-  digitalWrite(MOTOR_B, !(sentido));
+void controlaMotor(Motor motorControlado, boolean sentido){
+  digitalWrite(motorControlado.pinoA, sentido);
+  digitalWrite(motorControlado.pinoB, !(sentido));
 }
 
 void frente()
 {
-  controlaMotor(MOTOR_1A, MOTOR_1A, FRENTE);
+  controlaMotor(motorEsq, FRENTE);
   
-  controlaMotor(MOTOR_2A, MOTOR_2A, FRENTE);
+  controlaMotor(motorDir, FRENTE);
 }
 
 void tras()
 {
-  controlaMotor(MOTOR_1A, MOTOR_1A, TRAS);
+  controlaMotor(motorEsq, TRAS);
   
-  controlaMotor(MOTOR_2A, MOTOR_2A, TRAS);
+  controlaMotor(motorDir, TRAS);
 }
 
 void esquerda()
 {
-  controlaMotor(MOTOR_1A, MOTOR_1A, TRAS);
+  controlaMotor(motorEsq, TRAS);
   
-  controlaMotor(MOTOR_2A, MOTOR_2A, FRENTE);
+  controlaMotor(motorDir, FRENTE);
   
   delay(TEMPO_DE_GIRO);
 }
 
 void direita()
 {
-  controlaMotor(MOTOR_1A, MOTOR_1A, FRENTE);
+  controlaMotor(motorEsq, FRENTE);
   
-  controlaMotor(MOTOR_2A, MOTOR_2A, TRAS);
+  controlaMotor(motorDir, TRAS);
   
   delay(TEMPO_DE_GIRO);
 }
