@@ -10,25 +10,25 @@
  * GER - Grupo de Estudos em Robótica da Unicamp.
  */
 
-#define MOTOR_1A 7
-#define MOTOR_1B 6
-#define PWM_1 5
+#define MOTOR_1A 7      // Laranja
+#define MOTOR_1B 6     //  Laranja
+#define PWM_1 5       //   Verde
 
-#define MOTOR_2A 8        
-#define MOTOR_2B 9        
-#define PWM_2 10        
+#define MOTOR_2A 8     // Laranja e Branco     
+#define MOTOR_2B 9    //  Laranja e Branco     
+#define PWM_2 10     //   Verde e Branco   
 
 #define WAIT 5000     //Constante de tempo
 #define VALOR_PWM 255 //Valor
 #define TEMPO_DE_GIRO 1000 // aprox 90 graus
 
 // Sensor Frontal
-#define TRIG_F 3
-#define ECHO_F 4
+#define TRIG_F 3     // Azul
+#define ECHO_F 4    //  Azul
 
 // Sensor Direito
-//#define TRIG_D 
-//#define ECHO_D 
+//#define TRIG_D 11  // Azul e Branco
+//#define ECHO_D    //  Azul e Branco
 
 #define MAX_DIST 50
 
