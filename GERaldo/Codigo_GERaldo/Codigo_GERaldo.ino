@@ -10,6 +10,14 @@
  * GER - Grupo de Estudos em Robótica da Unicamp.
  */
 
+/* As pinagens para o arduino estão com cores deacordo com os jumpers
+ *  5V             -  VERMELHO
+ *  GND            -  MARROM
+ *  IMPUT          - LARANJA , LARANJA E BRANCO
+ *  PWM            - VERDE, VERDE E BRANCO
+ *  ECHO E TRIGGER - AZUL , AZUL E BRANCO
+ */
+
 #define MOTOR_1A 7      // Laranja
 #define MOTOR_1B 6     //  Laranja
 #define PWM_1 5       //   Verde
@@ -29,6 +37,7 @@
 // Sensor Direito
 //#define TRIG_D 11  // Azul e Branco
 //#define ECHO_D    //  Azul e Branco
+
 
 #define MAX_DIST 50
 
