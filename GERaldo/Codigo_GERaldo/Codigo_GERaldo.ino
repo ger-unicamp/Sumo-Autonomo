@@ -21,12 +21,12 @@
 #define TEMPO_DE_GIRO 1000 // aprox 90 graus
 
 // Sensor Frontal
-#define TRIG_F 3
-#define ECHO_F 4
+#define TRIG_F 11
+#define ECHO_F 12
 
 // Sensor Direito
-//#define TRIG_D 
-//#define ECHO_D 
+#define TRIG_D 3
+#define ECHO_D 4
 
 #define MAX_DIST 50
 
