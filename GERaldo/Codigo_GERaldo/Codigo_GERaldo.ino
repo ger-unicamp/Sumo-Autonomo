@@ -12,8 +12,8 @@
  * Achando algo, ele vai pra frente infinitamente
  */
  
-#define MOTOR_1A 6
-#define MOTOR_1B 7
+#define MOTOR_1A 7
+#define MOTOR_1B 6
 #define PWM_1 5
 
 #define MOTOR_2A 9        
