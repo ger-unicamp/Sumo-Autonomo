@@ -6,6 +6,10 @@
  *          Marcelo Martimiano Junior
  *          Paulo Grego.
  * GER - Grupo de Estudos em Robótica da Unicamp.
+ * 
+ * Descricao: Codigo usado na apresentacao do SUMO na ADM
+ * Quando nao acha nada, gira para a direita
+ * Achando algo, ele vai pra frente infinitamente
  */
  
 #define MOTOR_1A 6
