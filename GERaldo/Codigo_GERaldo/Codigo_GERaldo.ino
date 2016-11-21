@@ -18,25 +18,25 @@
  *  ECHO E TRIGGER - AZUL , AZUL E BRANCO
  */
 
-#define MOTOR_1A 6      // Laranja
-#define MOTOR_1B 7     //  Laranja
-#define PWM_1 5       //   Verde
+#define MOTOR_1A 9      // Laranja
+#define MOTOR_1B 8     //  Laranja
+#define PWM_1 10       //   Verde
 
-#define MOTOR_2A 9     // Laranja e Branco     
-#define MOTOR_2B 8    //  Laranja e Branco     
-#define PWM_2 10     //   Verde e Branco   
+#define MOTOR_2A 6     // Laranja e Branco     
+#define MOTOR_2B 7    //  Laranja e Branco     
+#define PWM_2 5     //   Verde e Branco   
 
 #define WAIT 5000     //Constante de tempo
 #define VALOR_PWM 255 //Valor
 #define TEMPO_DE_GIRO 1000 // aprox 90 graus
 
 // Sensor Frontal
-#define TRIG_F 3     // Azul
-#define ECHO_F 4    //  Azul
+#define TRIG_F 11     // Azul
+#define ECHO_F 12    //  Azul
 
 // Sensor Direito
-//#define TRIG_D 11  // Azul e Branco
-//#define ECHO_D    //  Azul e Branco
+#define TRIG_D 3  // Azul e Branco
+#define ECHO_D 4  //  Azul e Branco
 
 
 #define MAX_DIST 50
@@ -74,16 +74,22 @@ void setup()
 
 void loop()
 {
-  Serial.println(sensor_frontal.ping_cm());
   int d, aux_frontal[TAM_VETOR], l; 
 
   // implementação circular - leitura
   leituras_frontal[i % TAM_VETOR] = sensor_frontal.ping_cm();
+  
+  Serial.print("i: ");
+  Serial.println(i % TAM_VETOR);
 
   // copia do vetor para o auxiliar 
   for(l = 0; l < TAM_VETOR; l++)
   {
     aux_frontal[l] = leituras_frontal[l];
+    Serial.print("pos: ");
+    Serial.print(l);
+    Serial.print(", valor:");
+    Serial.println(aux_frontal[l]);
   }
 
   // retira a mediana
@@ -92,6 +98,7 @@ void loop()
   Serial.println(d);
   // teste para onde o robô seguira 
   // 0 eh considerado distancia maxima
+
   if (d < MAX_DIST && d > 0)
   {
     frente();
@@ -99,8 +106,9 @@ void loop()
   {
     direita();
   }
-  
+
   delay(10);
+  i++;
 }
 
 void inicializa_motores()
@@ -201,4 +209,3 @@ void insertion_sort(int* array, int tamanho)
     }
   }
 }
-  
