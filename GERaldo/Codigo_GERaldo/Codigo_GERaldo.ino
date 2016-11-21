@@ -18,12 +18,12 @@
  *  ECHO E TRIGGER - AZUL , AZUL E BRANCO
  */
 
-#define MOTOR_1A 7      // Laranja
-#define MOTOR_1B 6     //  Laranja
+#define MOTOR_1A 6      // Laranja
+#define MOTOR_1B 7     //  Laranja
 #define PWM_1 5       //   Verde
 
-#define MOTOR_2A 8     // Laranja e Branco     
-#define MOTOR_2B 9    //  Laranja e Branco     
+#define MOTOR_2A 9     // Laranja e Branco     
+#define MOTOR_2B 8    //  Laranja e Branco     
 #define PWM_2 10     //   Verde e Branco   
 
 #define WAIT 5000     //Constante de tempo
