@@ -65,6 +65,18 @@ NewPing sensor_lateral(TRIG_D, ECHO_D, MAX_DIST);
 // outra dica é entregar outro vetor para a ordenação
 int leituras_frontal[TAM_VETOR], i = 0, leituras_lateral[TAM_VETOR], j = 0;
 
+void inicializa_motores();
+void inicializa_sensores();
+void controlaMotor(Motor motorControlado, boolean sentido);
+void frente();
+void tras();
+void esquerda();
+void direita();
+void freia();
+int  mediana(int* v);
+void insertion_sort(int* array, int tamanho) ;
+bool leitura_sensor(int dist);
+
 void setup()
 {
   inicializa_motores();
