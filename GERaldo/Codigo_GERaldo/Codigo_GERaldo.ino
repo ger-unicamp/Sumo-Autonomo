@@ -75,7 +75,7 @@ void direita();
 void freia();
 int  mediana(int* v);
 void insertion_sort(int* array, int tamanho) ;
-bool leitura_sensor(int dist);
+bool leitura_sensor(NewPing sensor, char id);
 
 void setup()
 {
@@ -85,6 +85,43 @@ void setup()
   Serial.begin(115200);
 }
 
+
+// retorna 1 se acha algo no intervalo
+// retorna 0 se nao houver leitura ou for maior ou igual a distancia maxima
+bool leitura_sensor(NewPing sensor, char id[]){
+  unsigned int leituras[TAM_VETOR], aux[TAM_VETOR];
+  
+  for(int i=0; i<TAM_VETOR; i++){
+    leituras[i] = sensor.ping_cm();
+    delay(TEMPO_DELAY);
+  }
+
+  Serial.print("SENSOR ");
+  Serial.println(id);
+  // copia do vetor frontal para o auxiliar frontal
+  for(int l = 0; l < TAM_VETOR; l++)
+  {
+    aux[l] = leituras[l];
+    Serial.print("pos: ");
+    Serial.print(l);
+    Serial.print(", valor:");
+    Serial.println(aux[l]);
+  }
+
+  // retira a mediana
+  int dist = mediana(aux);
+  
+  Serial.print("Dist = ");
+  Serial.println(dist);
+
+  if(0 < dist && dist < MAX_DIST)
+  {
+    return 1;
+  }
+  return 0;
+
+    
+}
 void loop()
 {
   int dist_frontal, dist_lateral, aux_frontal[TAM_VETOR], aux_lateral[TAM_VETOR], l; 
@@ -93,73 +130,31 @@ void loop()
 //  leituras_frontal[i % TAM_VETOR] = sensor_frontal.ping_cm();
 //  leituras_lateral[j % TAM_VETOR] = sensor_lateral.ping_cm();
 
-  for(int bruno=0; bruno<TAM_VETOR; bruno++){
-    leituras_frontal[bruno] = sensor_frontal.ping_cm();
-    delay(TEMPO_DELAY);
-    leituras_lateral[bruno] = sensor_lateral.ping_cm();
-    delay(TEMPO_DELAY);  
-  }
-  
-  Serial.print("i: ");
-  Serial.println(i % TAM_VETOR);
-  // incremento das variaveis dos vetores
-  i++;
-  j++;
-
-  Serial.println("SENSOR FRONTAL");
-  // copia do vetor frontal para o auxiliar frontal
-  for(l = 0; l < TAM_VETOR; l++)
-  {
-    aux_frontal[l] = leituras_frontal[l];
-    Serial.print("pos: ");
-    Serial.print(l);
-    Serial.print(", valor:");
-    Serial.println(aux_frontal[l]);
-  }
-
-  Serial.println("SENSOR LATERAL");
-  // copia do vetor lateral para o auxiliar lateral
-  for(l = 0; l < TAM_VETOR; l++)
-  {
-    aux_lateral[l] = leituras_lateral[l];
-    Serial.print("pos: ");
-    Serial.print(l);
-    Serial.print(", valor:");
-    Serial.println(aux_lateral[l]);
-  }
-
-  // retira a mediana
-  dist_frontal = mediana(aux_frontal);
-  dist_lateral = mediana(aux_lateral);
-  
-  Serial.print("Dist frontal = ");
-  Serial.println(dist_frontal);
-  Serial.print("Dist lateral = ");
-  Serial.println(dist_lateral);
-  
-  // teste para onde o robô seguira 
-  // 0 eh considerado distancia maxima
+  bool estadoFrente = leitura_sensor(sensor_frontal, "FRENTE");
+  bool estadoDireita = leitura_sensor(sensor_lateral, "DIREITA");
 
   
-  if (!leitura_sensor(dist_lateral) && leitura_sensor(dist_frontal))
+  if (estadoFrente && !estadoDireita)
   {
     Serial.println("FRENTE");
     frente();
   }
-  else if( !leitura_sensor(dist_frontal) && !leitura_sensor(dist_lateral))
+  else if( !estadoFrente && !estadoDireita)
   {
     Serial.println("ESQUERDA");
     esquerda();
   }
   // le apenas o sensor lateral
-  else if (!leitura_sensor(dist_frontal) && leitura_sensor(dist_lateral))
+  else if (!estadoFrente && estadoDireita)
   {
     Serial.println("DIREITA");
-    while(!leitura_sensor(dist_frontal))
+    while(!(estadoFrente = leitura_sensor(sensor_frontal, "FRENTE"))){
       direita();
+      Serial.println("DIREITA");
+    }
     delay(TEMPO_DE_GIRO);
   }
-  else if (leitura_sensor(dist_frontal) && leitura_sensor(dist_lateral))
+  else if (estadoFrente && estadoDireita)
   {
     Serial.println("FRENTE");
     frente();
@@ -267,16 +262,3 @@ void insertion_sort(int* array, int tamanho)
     }
   }
 }
-
-// retorna 1 se acha algo no intervalo
-// retorna 0 se nao houver leitura ou for maior ou igual a distancia maxima
-bool leitura_sensor(int dist)
-{
-  if(0 < dist && dist < MAX_DIST)
-  {
-    return 1;
-  }
-
-  return 0;
-}
-
