@@ -155,8 +155,9 @@ void loop()
   else if (!leitura_sensor(dist_frontal) && leitura_sensor(dist_lateral))
   {
     Serial.println("DIREITA");
-    
-    direita();
+    while(!leitura_sensor(dist_frontal))
+      direita();
+    delay(TEMPO_DE_GIRO);
   }
   else if (leitura_sensor(dist_frontal) && leitura_sensor(dist_lateral))
   {
@@ -220,7 +221,7 @@ void esquerda()
   
   controlaMotor(motorDir, FRENTE);
   
-  delay(TEMPO_DE_GIRO);
+//  delay(TEMPO_DE_GIRO);
 }
 
 void direita()
@@ -229,7 +230,7 @@ void direita()
   
   controlaMotor(motorDir, TRAS);
   
-  delay(TEMPO_DE_GIRO);
+ // delay(TEMPO_DE_GIRO);
 }
 
 void freia()
